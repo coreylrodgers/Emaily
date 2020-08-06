@@ -11,6 +11,8 @@ require('./services/passport');
 
 const app = express();
 
+app.use(express.json());
+
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -24,6 +26,7 @@ app.use(passport.session());
 const PORT = process.env.PORT || 5000;
 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 app.get('/', (req, res) => res.send('working'));
 app.listen(PORT, () => console.log(`server running on port:${PORT}`));
