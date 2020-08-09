@@ -28,5 +28,15 @@ const PORT = process.env.PORT || 5000;
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+if(process.env.NODE_ENV === 'production') {
+//serve prod assets
+app.use(express.static('client/build'));
+//serve index.html if it doesn't recognise the route
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname,'client', 'build', 'index.html'))
+})
+}
+
 app.get('/', (req, res) => res.send('working'));
 app.listen(PORT, () => console.log(`server running on port:${PORT}`));
